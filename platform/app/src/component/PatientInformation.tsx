@@ -39,52 +39,42 @@ const PatientInformation: React.FC = () => {
       }
     };
 
-    const endpoint = 'StudyID';
-    const requestBody = {
-      StudyInstanceUID: studyInstanceUIDs,
-      username: User,
-    };
-
-    const props = {
-      header: true,
-    };
-
     const postDataProps: PostDataProps = {
-      end_point: endpoint,
-      body: requestBody,
+      end_point: 'StudyID',
+      body: { StudyInstanceUID: studyInstanceUIDs, username: User },
       call_back: handleResponse,
-      props,
+      props: { header: true },
     };
 
     postDatatoServer(postDataProps);
   }, []);
 
-  const studyInfoTable = () => {
-    const renderInfo = (value: string | undefined, label?: string): React.ReactNode => {
-      if (value && value !== 'NA') {
-        return <div>{label ? `${label}: ${value}` : value}</div>;
-      }
-      return null;
-    };
-
-    return (
-      <div className="mb-2 text-white">
-        <div className="self-start text-[13px] font-bold">
-          <div className="flex items-center gap-3">{renderInfo(tableData?.patientID)}</div>
-          <div className="flex items-center gap-3">
-            {renderInfo(tableData?.name)}
-            {renderInfo(tableData?.PatientAge)}
-            {renderInfo(tableData?.PatientSex)}
-          </div>
-          {renderInfo(
-            tableData?.study ? tableData.study : tableData?.bodyPart ? tableData.bodyPart : '-'
-          )}
+  const renderInfo = (value?: string, label?: string) => {
+    if (value && value !== 'NA') {
+      return (
+        <div className="text-sm font-medium md:text-[13px]">
+          {label ? `${label}: ${value}` : value}
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   };
 
-  return <>{tableData ? studyInfoTable() : <p>Loading...</p>}</>;
+  if (!tableData) return <p className="text-sm text-white md:text-[13px]">Loading...</p>;
+
+  return (
+    <div className="inline-block rounded-lg bg-black/40 p-2 text-xs font-bold text-white shadow-lg backdrop-blur-sm md:max-w-xs md:p-3 md:text-[13px]">
+      <div className="flex flex-col gap-1 text-center md:text-left">
+        {renderInfo(tableData?.patientID, 'ID')}
+        <div className="flex flex-wrap justify-center gap-2 md:justify-start">
+          {renderInfo(tableData?.name)}
+          {renderInfo(tableData?.PatientAge)}
+          {renderInfo(tableData?.PatientSex)}
+        </div>
+        {renderInfo(tableData?.study || tableData?.bodyPart || '-', 'Study')}
+      </div>
+    </div>
+  );
 };
 
 export default PatientInformation;

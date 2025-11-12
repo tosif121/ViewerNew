@@ -31,7 +31,7 @@ interface ToolButtonProps {
   icon?: string;
   label?: string;
   tooltip?: string;
-  size?: 'default' | 'small';
+  size?: 'default' | 'small' | 'tiny';
   isActive?: boolean;
   disabled?: boolean;
   disabledText?: string;
@@ -60,17 +60,24 @@ function ToolButton(props: ToolButtonProps) {
   const { className: iconClassName } = useIconPresentation();
   const { buttonSizeClass, iconSizeClass } = sizeClasses[size] || sizeClasses.default;
 
-  const buttonClasses = cn(
+  // ✅ Responsive adjustments for mobile
+  const responsiveButtonClasses = cn(
     baseClasses,
-    buttonSizeClass,
+    // Smaller button + icon on mobile
+    'w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10',
     disabled ? disabledClasses : isActive ? activeClasses : defaultClasses,
     className
+  );
+
+  const responsiveIconClasses = cn(
+    iconClassName,
+    // Shrink icon size on mobile, normal on desktop
+    'h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7'
   );
 
   const defaultTooltip = label;
   const disabledTooltip = disabled && disabledText ? disabledText : null;
   const hasSecondaryTooltip = tooltip || disabledTooltip;
-
   const showTooltip = hasSecondaryTooltip || defaultTooltip;
 
   return (
@@ -79,15 +86,14 @@ function ToolButton(props: ToolButtonProps) {
         asChild
         className={cn(disabled && 'cursor-not-allowed')}
       >
-        {/* TooltipTrigger is a span since a disabled button does not fire events and the tooltip
-        will not show. */}
+        {/* Disabled button fallback span for tooltip */}
         <span
           data-cy={id}
           data-tool={id}
           data-active={isActive}
         >
           <Button
-            className={buttonClasses}
+            className={responsiveButtonClasses}
             onClick={() => {
               if (!disabled) {
                 onInteraction?.({ itemId: id, commands });
@@ -102,12 +108,13 @@ function ToolButton(props: ToolButtonProps) {
             {children || (
               <Icons.ByName
                 name={icon}
-                className={iconClassName || iconSizeClass}
+                className={responsiveIconClasses}
               />
             )}
           </Button>
         </span>
       </TooltipTrigger>
+
       <TooltipContent
         side="bottom"
         className="text-wrap w-auto max-w-sm whitespace-normal break-words"

@@ -279,6 +279,20 @@ const SidePanel = ({
     updateActiveTabIndex(activeTabIndexProp ?? 0);
   }, [activeTabIndexProp, updateActiveTabIndex]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 767) {
+        updatePanelOpen(true);
+      }
+    };
+
+    // Run immediately and on window resize
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [side]);
+
   const getCloseStateComponent = () => {
     const _childComponents = Array.isArray(tabs) ? tabs : [tabs];
     return (
