@@ -8,6 +8,7 @@ import ViewerHeader from './ViewerHeader';
 import SidePanelWithServices from '../Components/SidePanelWithServices';
 import { Onboarding, ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@ohif/ui-next';
 import useResizablePanels from './ResizablePanelsHook';
+import PatientInformation from '../../../../platform/app/src/component/PatientInformation';
 
 const resizableHandleClassName = 'mt-[1px] bg-black';
 
@@ -43,6 +44,11 @@ function ViewerLayout({
   const [hasLeftPanels, setHasLeftPanels] = useState(hasPanels('left'));
   const [leftPanelClosedState, setLeftPanelClosed] = useState(leftPanelClosed);
   const [rightPanelClosedState, setRightPanelClosed] = useState(rightPanelClosed);
+  const [activeButton, setActiveButton] = useState('Studies');
+
+  const handleButtonClick = buttonName => {
+    setActiveButton(buttonName);
+  };
 
   const [
     leftPanelProps,
@@ -149,6 +155,33 @@ function ViewerLayout({
 
   const viewportComponents = viewports.map(getViewportComponentData);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        const leftPanel = document.getElementById('viewerLayoutResizableLeftPanel');
+        if (!leftPanel) return;
+
+        // ✅ Ensure the left panel always has the left_side class
+        if (!leftPanel.classList.contains('left_side')) {
+          leftPanel.classList.add('left_side');
+        }
+
+        // ✅ Remove all inline styles on mobile
+        leftPanel.removeAttribute('style');
+        const innerDiv = leftPanel.querySelector('.left_side');
+        if (innerDiv) innerDiv.removeAttribute('style');
+      }
+    };
+
+    // Run immediately on mount and when resizing
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div>
       <ViewerHeader
@@ -157,16 +190,17 @@ function ViewerLayout({
         servicesManager={servicesManager}
         appConfig={appConfig}
       />
-      <div
-        className="relative flex w-full flex-row flex-nowrap items-stretch overflow-hidden bg-black"
-        style={{ height: 'calc(100vh - 52px' }}
-      >
+      <div className="img_section relative w-full flex-row flex-nowrap items-stretch overflow-y-auto overflow-x-hidden bg-black md:flex md:overflow-hidden">
         <React.Fragment>
           {showLoadingIndicator && <LoadingIndicatorProgress className="h-full w-full bg-black" />}
           <ResizablePanelGroup {...resizablePanelGroupProps}>
             {/* LEFT SIDEPANELS */}
             {hasLeftPanels ? (
-              <>
+              <div
+                className={`${
+                  activeButton === 'Studies' ? 'flex w-full md:w-auto' : 'hidden md:flex md:w-auto'
+                }`}
+              >
                 <ResizablePanel {...resizableLeftPanelProps}>
                   <SidePanelWithServices
                     side="left"
@@ -180,25 +214,34 @@ function ViewerLayout({
                   disabled={!leftPanelResizable}
                   className={resizableHandleClassName}
                 />
-              </>
+              </div>
             ) : null}
             {/* TOOLBAR + GRID */}
             <ResizablePanel {...resizableViewportGridPanelProps}>
-              <div className="flex h-full flex-1 flex-col">
+              <div
+                className={`flex h-full flex-1 flex-col ${
+                  (activeButton == 'Image' && 'flex h-full') || 'middle_img'
+                }`}
+              >
                 <div
                   className="relative flex h-full flex-1 items-center justify-center overflow-hidden bg-black"
                   onMouseEnter={handleMouseEnter}
                 >
-                  <ViewportGridComp
-                    servicesManager={servicesManager}
-                    viewportComponents={viewportComponents}
-                    commandsManager={commandsManager}
-                  />
+                  <div className="relative flex h-full flex-1 items-center justify-center overflow-hidden bg-black">
+                    <div className="absolute right-20 top-10 z-[50]">
+                      <PatientInformation />
+                    </div>
+                    <ViewportGridComp
+                      servicesManager={servicesManager}
+                      viewportComponents={viewportComponents}
+                      commandsManager={commandsManager}
+                    />
+                  </div>
                 </div>
               </div>
             </ResizablePanel>
             {hasRightPanels ? (
-              <>
+              <div className={`${(activeButton == 'Report' && 'flex') || 'hidden md:flex'}`}>
                 <ResizableHandle
                   onDragging={onHandleDragging}
                   disabled={!rightPanelResizable}
@@ -212,13 +255,46 @@ function ViewerLayout({
                     {...rightPanelProps}
                   />
                 </ResizablePanel>
-              </>
+              </div>
             ) : null}
           </ResizablePanelGroup>
         </React.Fragment>
       </div>
       <Onboarding tours={customizationService.getCustomization('ohif.tours')} />
       <InvestigationalUseDialog dialogConfiguration={appConfig?.investigationalUseDialog} />
+
+      <div className="mt-1 flex items-center justify-center gap-4 md:hidden">
+        <button
+          className={`rounded px-2 py-1 text-sm ${
+            activeButton === 'Studies'
+              ? 'bg-blue-500 text-white'
+              : 'border border-blue-500 text-white'
+          }`}
+          onClick={() => handleButtonClick('Studies')}
+        >
+          Studies
+        </button>
+        <button
+          className={`rounded px-2 py-1 text-sm ${
+            activeButton === 'Image'
+              ? 'bg-blue-500 text-white'
+              : 'border border-blue-500 text-white'
+          }`}
+          onClick={() => handleButtonClick('Image')}
+        >
+          Image
+        </button>
+        <button
+          className={`rounded px-2 py-1 text-sm ${
+            activeButton === 'Report'
+              ? 'bg-blue-500 text-white'
+              : 'border border-blue-500 text-white'
+          }`}
+          onClick={() => handleButtonClick('Report')}
+        >
+          Report
+        </button>
+      </div>
     </div>
   );
 }

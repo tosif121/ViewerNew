@@ -58,7 +58,7 @@ const closeIconWidth = 30;
 const gridHorizontalPadding = 10;
 const tabSpacerWidth = 2;
 
-const baseClasses = 'bg-black border-black justify-start box-content flex flex-col';
+const baseClasses = 'left_side bg-black border-black justify-start box-content flex flex-col';
 
 const openStateIconName = {
   left: 'SidePanelCloseLeft',
@@ -297,7 +297,7 @@ const SidePanel = ({
             className={classnames('text-primary', side === 'left' && 'rotate-180 transform')}
           />
         </div>
-        <div className={classnames('mt-3 flex flex-col space-y-3')}>
+        {/* <div className={classnames('mt-3 flex flex-col space-y-3')}>
           {_childComponents.map((childComponent, index) => (
             <Tooltip key={index}>
               <TooltipTrigger>
@@ -333,7 +333,7 @@ const SidePanel = ({
               </TooltipContent>
             </Tooltip>
           ))}
-        </div>
+        </div> */}
       </>
     );
   };
@@ -365,7 +365,7 @@ const SidePanel = ({
       <>
         {getCloseIcon()}
         <div className={classnames('flex grow justify-center')}>
-          <div className={classnames('bg-primary-dark text-primary flex flex-wrap')}>
+          {/* <div className={classnames('bg-primary-dark text-primary flex flex-wrap')}>
             {tabs.map((tab, tabIndex) => {
               const { disabled } = tab;
               return (
@@ -419,7 +419,8 @@ const SidePanel = ({
                 </React.Fragment>
               );
             })}
-          </div>
+          </div> */}
+          <span className="text-primary select-none">Report</span>
         </div>
       </>
     );

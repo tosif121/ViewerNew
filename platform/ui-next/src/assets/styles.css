@@ -55,3 +55,45 @@
 .invisible-scrollbar::-webkit-scrollbar-thumb:window-inactive {
   @apply hidden;
 }
+
+.img_section {
+  height: calc(100vh - 50px);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: pulse 0.5s infinite;
+}
+
+@media (max-width: 767px) {
+  .middle_img {
+    visibility: hidden;
+    height: 10px;
+  }
+  .left_side {
+    max-width: unset !important;
+    width: 100% !important;
+    margin: unset !important;
+    overflow: auto;
+  }
+
+  .img_section {
+    height: calc(100vh - 230px);
+    margin-top: 50px;
+  }
+}
+
+.jodit-wysiwyg * {
+  color: #000 !important;
+}

@@ -189,7 +189,9 @@ function DataSourceWrapper(props: withAppTypes) {
       if (isDataInvalid) {
         getData().catch(e => {
           console.error(e);
-
+          localStorage.removeItem('token');
+          // alert('You have been logged out!');
+          navigate('/login');
           const { configurationAPI, friendlyName } = dataSource.getConfig();
           // If there is a data source configuration API, then the Worklist will popup the dialog to attempt to configure it
           // and attempt to resolve this issue.

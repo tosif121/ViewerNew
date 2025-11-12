@@ -1,10 +1,13 @@
-import { useUserAuthentication } from '@ohif/ui-next';
+// src/components/PrivateRoute.jsx
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 
-export const PrivateRoute = ({ children, handleUnauthenticated }) => {
-  const [{ user, enabled }] = useUserAuthentication();
+const PrivateRoute = ({ children, handleUnauthenticated }) => {
+  const token = localStorage.getItem('token');
 
-  if (enabled && !user) {
-    return handleUnauthenticated();
+  if (!token) {
+    handleUnauthenticated();
+    return <Navigate to="/login" />;
   }
 
   return children;

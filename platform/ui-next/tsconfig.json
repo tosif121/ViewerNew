@@ -8,6 +8,6 @@
       "@ohif/ui": ["../ui/src"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "../ui/src/component", "../app/src/component"],
   "exclude": ["node_modules"]
 }

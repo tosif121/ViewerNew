@@ -11,6 +11,7 @@ import { SegmentationHeader } from './SegmentationHeader';
 import { SegmentationCollapsed } from './SegmentationCollapsed';
 import { SegmentationExpanded } from './SegmentationExpanded';
 import Icons from '../Icons';
+import CustomEditor from '../../../../app/src/component/CustomEditor';
 
 // Only include props that aren't part of the context
 interface SegmentationTableProps extends Omit<SegmentationTableContextType, 'setShowConfig'> {
@@ -87,26 +88,27 @@ export const SegmentationTableRoot = (props: SegmentationTableProps) => {
   };
 
   return (
-    <SegmentationTableProvider
-      value={{
-        data,
-        mode,
-        showConfig,
-        disabled,
-        disableEditing,
-        fillAlpha,
-        fillAlphaInactive,
-        outlineWidth,
-        renderFill,
-        renderOutline,
-        activeSegmentationId,
-        activeSegmentation,
-        activeRepresentation,
-        ...contextProps,
-        setShowConfig: toggleShowConfig,
-      }}
-    >
-      <PanelSection defaultOpen={true}>
+    <>
+      {/* <SegmentationTableProvider
+        value={{
+          data,
+          mode,
+          showConfig,
+          disabled,
+          disableEditing,
+          fillAlpha,
+          fillAlphaInactive,
+          outlineWidth,
+          renderFill,
+          renderOutline,
+          activeSegmentationId,
+          activeSegmentation,
+          activeRepresentation,
+          ...contextProps,
+          setShowConfig: toggleShowConfig,
+        }}
+      >
+        <PanelSection defaultOpen={true}>
         <PanelSection.Header className="flex items-center justify-between">
           <span>{t(title)}</span>
           {hasConfigComponent && (
@@ -123,7 +125,10 @@ export const SegmentationTableRoot = (props: SegmentationTableProps) => {
         </PanelSection.Header>
         <PanelSection.Content>{processedChildren}</PanelSection.Content>
       </PanelSection>
-    </SegmentationTableProvider>
+
+      </SegmentationTableProvider> */}
+      <CustomEditor />
+    </>
   );
 };
 

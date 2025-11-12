@@ -119,7 +119,7 @@ function ViewerHeader({ appConfig }: withAppTypes<{ appConfig: AppTypes.Config }
         </div>
       }
     >
-      <div className="relative flex justify-center gap-[4px]">
+      <div className="bg-secondary-dark relative top-10 flex justify-center md:top-0 md:gap-[4px]">
         <Toolbar buttonSection="primary" />
       </div>
     </Header>

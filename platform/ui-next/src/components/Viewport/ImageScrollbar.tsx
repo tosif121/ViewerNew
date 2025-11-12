@@ -19,12 +19,10 @@ export const ImageScrollbar: React.FC<ImageScrollbarProps> = ({
   onContextMenu = e => e.preventDefault(),
   className = '',
 }) => {
-  if (max === 0) {
-    return null;
-  }
+  if (max === 0) return null;
 
   const style = {
-    width: height, // This is intentional for the rotation
+    width: height, // used for vertical rotation
   };
 
   const handleChange = useCallback(
@@ -36,37 +34,52 @@ export const ImageScrollbar: React.FC<ImageScrollbarProps> = ({
   );
 
   const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
-    // We don't allow direct keyboard navigation (arrow keys)
-    const keys = {
-      DOWN: 40,
-      UP: 38,
-    };
-
-    if (event.which === keys.DOWN || event.which === keys.UP) {
-      event.preventDefault();
-    }
+    const keys = { DOWN: 40, UP: 38 };
+    if (event.which === keys.DOWN || event.which === keys.UP) event.preventDefault();
   }, []);
 
   return (
-    <div
-      className={cn(styles.scrollbarContainer, className)}
-      onContextMenu={onContextMenu}
-    >
-      <div className={styles.scrollbarInner}>
-        <input
-          className={cn(styles.scrollbarInput, 'mousetrap imageSlider')}
-          style={style}
-          type="range"
-          min="0"
-          max={max}
-          step="1"
-          value={value}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          aria-label="Image navigation scrollbar"
-          data-testid="image-scrollbar-input"
-        />
+    <>
+      {/* Vertical Scrollbar (always visible) */}
+      <div
+        className={cn(styles.scrollbarContainer, className)}
+        onContextMenu={onContextMenu}
+      >
+        <div className={styles.scrollbarInner}>
+          <input
+            className={cn(styles.scrollbarInput, 'mousetrap imageSlider')}
+            style={style}
+            type="range"
+            min="0"
+            max={max}
+            step="1"
+            value={value}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            aria-label="Vertical image scrollbar"
+          />
+        </div>
       </div>
-    </div>
+
+      {/* Horizontal Scrollbar (mobile only) */}
+      <div
+        className={cn(styles.horizontalScrollbarContainer, className)}
+        onContextMenu={onContextMenu}
+      >
+        <div className={styles.horizontalScrollbarInner}>
+          <input
+            className={cn(styles.horizontalScrollbarInput, 'mousetrap imageSlider')}
+            type="range"
+            min="0"
+            max={max}
+            step="1"
+            value={value}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            aria-label="Horizontal image scrollbar"
+          />
+        </div>
+      </div>
+    </>
   );
 };

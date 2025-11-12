@@ -563,7 +563,7 @@ function WorkList({
       <InvestigationalUseDialog dialogConfiguration={appConfig?.investigationalUseDialog} />
       <div className="flex h-full flex-col overflow-y-auto">
         <ScrollArea>
-          <div className="flex grow flex-col">
+          <>
             <StudyListFilter
               numOfStudies={pageNumber * resultsPerPage > 100 ? 101 : numOfStudies}
               filtersMeta={filtersMeta}
@@ -578,7 +578,7 @@ function WorkList({
                   : undefined
               }
             />
-          </div>
+          </>
           {hasStudies ? (
             <div className="flex grow flex-col">
               <StudyListTable

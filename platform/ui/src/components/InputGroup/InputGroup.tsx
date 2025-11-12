@@ -117,18 +117,20 @@ const InputGroup = ({
     }
   };
   return (
-    <div className="container relative m-auto flex flex-col">
-      <div className="flex w-full flex-row">
-        {inputMeta.map(inputMeta => {
-          return (
-            <div
-              key={inputMeta.name}
-              className={classnames('pl-4 first:pl-12', getGridWidthClass(inputMeta.gridCol))}
-            >
-              {renderFieldInputComponent(inputMeta)}
-            </div>
-          );
-        })}
+    <div className="relative m-auto w-full px-4">
+      <div className="grid w-full grid-cols-2 gap-4 md:flex md:flex-nowrap md:items-center md:gap-6">
+        {inputMeta.map((inputMeta, index) => (
+          <div
+            key={inputMeta.name}
+            className={classnames(
+              'w-full flex-1 md:w-auto',
+              index === 2 ? 'col-span-2 md:flex-none' : '', // 3rd full width
+              getGridWidthClass(inputMeta.gridCol)
+            )}
+          >
+            {renderFieldInputComponent(inputMeta)}
+          </div>
+        ))}
       </div>
     </div>
   );

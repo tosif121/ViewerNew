@@ -32,8 +32,8 @@ const StudyListFilter = ({
     <React.Fragment>
       <div>
         <div className="bg-black">
-          <div className="container relative mx-auto flex flex-col pt-5">
-            <div className="mb-5 flex flex-row justify-between">
+          <div className="relative mx-auto flex flex-col p-5 pb-0">
+            <div className="mb-5 flex flex-row flex-wrap justify-between gap-4">
               <div className="flex min-w-[1px] shrink flex-row items-center gap-6">
                 <Typography
                   variant="h6"
@@ -87,7 +87,7 @@ const StudyListFilter = ({
         </div>
       </div>
       <div className="sticky -top-1 z-10 mx-auto border-b-4 border-black">
-        <div className="bg-primary-dark pt-3 pb-3">
+        <div className="bg-primary-dark py-3">
           <InputGroup
             inputMeta={filtersMeta}
             values={filterValues}

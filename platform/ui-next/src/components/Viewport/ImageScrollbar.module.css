@@ -1,4 +1,4 @@
-/* Scrollbar container */
+/* === VERTICAL SCROLLBAR (ALWAYS VISIBLE) === */
 .scrollbarContainer {
   position: absolute;
   right: 0;
@@ -14,7 +14,6 @@
   width: 11px;
 }
 
-/* Apply these styles to any range input inside our component */
 .scrollbarInput {
   position: absolute;
   left: 12px;
@@ -27,9 +26,10 @@
   appearance: none;
   background-color: transparent;
   padding: 0;
+  touch-action: none;
 }
 
-/* Thumb styles for WebKit browsers - more specific selector */
+/* === Vertical Thumb (WebKit) === */
 input[type='range'].scrollbarInput::-webkit-slider-thumb {
   -webkit-appearance: none !important;
   background-color: hsl(var(--neutral));
@@ -41,15 +41,14 @@ input[type='range'].scrollbarInput::-webkit-slider-thumb {
   margin-top: -4px;
   width: 32px;
 }
-
-input[type='range'].scrollbarInput::-webkit-slider-thumb:active,
-input[type='range'].scrollbarInput::-webkit-slider-thumb:hover {
+input[type='range'].scrollbarInput::-webkit-slider-thumb:hover,
+input[type='range'].scrollbarInput::-webkit-slider-thumb:active {
   background-color: hsl(var(--primary));
   opacity: 60%;
   cursor: -webkit-grabbing;
 }
 
-/* Thumb styles for Firefox - more specific selector */
+/* === Vertical Thumb (Firefox) === */
 input[type='range'].scrollbarInput::-moz-range-thumb {
   background-color: hsl(var(--neutral));
   opacity: 50%;
@@ -59,23 +58,20 @@ input[type='range'].scrollbarInput::-moz-range-thumb {
   height: 12px;
   width: 39px;
 }
-
-input[type='range'].scrollbarInput::-moz-range-thumb:active,
-input[type='range'].scrollbarInput::-moz-range-thumb:hover {
+input[type='range'].scrollbarInput::-moz-range-thumb:hover,
+input[type='range'].scrollbarInput::-moz-range-thumb:active {
   background-color: hsl(var(--primary));
   opacity: 50%;
   cursor: -moz-grabbing;
 }
 
-/* Track styles for WebKit browsers - more specific selector */
+/* === Vertical Track === */
 input[type='range'].scrollbarInput::-webkit-slider-runnable-track {
   background-color: transparent;
   border: none;
   cursor: pointer;
   height: 5px;
 }
-
-/* Track styles for Firefox - more specific selector */
 input[type='range'].scrollbarInput::-moz-range-track {
   background-color: transparent;
   border: none;
@@ -83,7 +79,100 @@ input[type='range'].scrollbarInput::-moz-range-track {
   height: 2px;
 }
 
-/* Ensure focus doesn't show an outline */
 .scrollbarInput:focus {
   outline: none;
+}
+
+/* === HORIZONTAL SCROLLBAR (MOBILE ONLY) === */
+.horizontalScrollbarContainer {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .horizontalScrollbarContainer {
+    position: absolute;
+    bottom: 0px;
+    right: 50px;
+    width: 75%;
+    height: 40px;
+    padding: 0 16px;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+  }
+
+  .horizontalScrollbarInner {
+    position: relative;
+    width: 100%;
+    height: 6px;
+    border-radius: 9999px;
+    background: rgba(160, 160, 160, 0.4);
+  }
+
+  .horizontalScrollbarInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    transform: none;
+    -webkit-appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  /* Horizontal WebKit */
+  input[type='range'].horizontalScrollbarInput::-webkit-slider-runnable-track {
+    height: 6px;
+    background: transparent;
+    border-radius: 9999px;
+  }
+
+  input[type='range'].horizontalScrollbarInput::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 22px;
+    width: 22px;
+    background: hsl(var(--primary));
+    border: 3px solid #fff;
+    border-radius: 50%;
+    margin-top: -8px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+  }
+
+  input[type='range'].horizontalScrollbarInput::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  input[type='range'].horizontalScrollbarInput::-webkit-slider-thumb:active {
+    background: hsl(var(--primary) / 0.9);
+    transform: scale(1.1);
+  }
+
+  /* Horizontal Firefox */
+  input[type='range'].horizontalScrollbarInput::-moz-range-track {
+    height: 6px;
+    background: transparent;
+    border-radius: 9999px;
+  }
+
+  input[type='range'].horizontalScrollbarInput::-moz-range-thumb {
+    height: 22px;
+    width: 22px;
+    background: hsl(var(--primary));
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  input[type='range'].horizontalScrollbarInput::-moz-range-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  input[type='range'].horizontalScrollbarInput::-moz-range-thumb:active {
+    transform: scale(1.1);
+  }
 }

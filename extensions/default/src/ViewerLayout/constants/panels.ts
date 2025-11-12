@@ -4,11 +4,14 @@ const collapsedOutsideBorderSize = 4;
 const collapsedWidth = 25;
 
 const getPanelGroupDefinition = ({
-  leftPanelInitialExpandedWidth = 282,
-  rightPanelInitialExpandedWidth = 280,
-  leftPanelMinimumExpandedWidth = 145,
-  rightPanelMinimumExpandedWidth = 280,
-}) => {
+  // 🩻 LEFT PANEL — Reduced
+  leftPanelInitialExpandedWidth = 220, // from 282 → 220
+  leftPanelMinimumExpandedWidth = 130, // slightly smaller minimum
+
+  // 📋 RIGHT PANEL — Increased
+  rightPanelInitialExpandedWidth = 500, // from 280 → 500 ✅
+  rightPanelMinimumExpandedWidth = 400, // to keep smooth resize behavior
+} = {}) => {
   return {
     groupId: 'viewerLayoutResizablePanelGroup',
     shared: {
@@ -18,15 +21,10 @@ const getPanelGroupDefinition = ({
       collapsedWidth,
     },
     left: {
-      // id
       panelId: 'viewerLayoutResizableLeftPanel',
-      // expanded width
       initialExpandedWidth: leftPanelInitialExpandedWidth,
-      // expanded width + expanded inside border
       minimumExpandedOffsetWidth: leftPanelMinimumExpandedWidth + expandedInsideBorderSize,
-      // initial expanded width
       initialExpandedOffsetWidth: leftPanelInitialExpandedWidth + expandedInsideBorderSize,
-      // collapsed width + collapsed inside border + collapsed outside border
       collapsedOffsetWidth: collapsedWidth + collapsedInsideBorderSize + collapsedOutsideBorderSize,
     },
     right: {

@@ -78,7 +78,9 @@
     "link-list": "npm ls --depth=0 --link=true"
   },
   "dependencies": {
-    "execa": "8.0.1"
+    "execa": "8.0.1",
+    "jodit-react": "^5.2.38",
+    "react-hot-toast": "^2.6.0"
   },
   "optionalDependencies": {
     "@percy/cypress": "3.1.6",

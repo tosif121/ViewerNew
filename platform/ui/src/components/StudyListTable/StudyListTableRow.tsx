@@ -49,13 +49,10 @@ const StudyListTableRow = props => {
                       <td
                         key={index}
                         className={classnames(
-                          'truncate px-4 py-2 text-base',
+                          'whitespace-nowrap px-4 py-2 text-base',
                           { 'border-secondary-light border-b': !isExpanded },
                           getGridWidthClass(gridCol) || ''
                         )}
-                        style={{
-                          maxWidth: 0,
-                        }}
                         title={title}
                       >
                         <div className="flex">

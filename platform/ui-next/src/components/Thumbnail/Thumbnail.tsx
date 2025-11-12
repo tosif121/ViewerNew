@@ -254,7 +254,7 @@ const Thumbnail = ({
       className={classnames(
         className,
         'bg-muted hover:bg-primary/30 group flex cursor-pointer select-none flex-col rounded outline-none',
-        viewPreset === 'thumbnails' && 'h-[170px] w-[135px]',
+        viewPreset === 'thumbnails' && 'h-[170px] w-full',
         viewPreset === 'list' && 'h-[40px] w-full'
       )}
       id={`thumbnail-${displaySetInstanceUID}`}
