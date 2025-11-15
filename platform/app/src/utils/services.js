@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-const BASE_URL = `https://pacsdev.iotcom.io/node/`;
+// const BASE_URL = `https://pacsdev.iotcom.io/node/`;
 // const BASE_URL = 'https://volente2.iotcom.io/node/';
 // const BASE_URL = 'https://volente2.iotcom.io/';
 // const BASE_URL = 'https://volente.iotcom.io:8080/';
 // const BASE_URL = 'http://pacc.iotcom.io:5500/';
 //const BASE_URL = 'http://localhost:5500/';
 // const BASE_URL = 'http://rad.iotcom.io:5500/';
+const BASE_URL = `${window.location.origin}/node/`;
 
 const getToken = () => {
   return localStorage.getItem('token');

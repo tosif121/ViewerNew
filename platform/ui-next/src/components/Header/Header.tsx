@@ -82,7 +82,7 @@ function Header({
             </div>
           </div> */}
           <a
-            href={`https://pacsdev.iotcom.io`}
+            href={`${window.location.origin}`}
             className=""
           >
             <img

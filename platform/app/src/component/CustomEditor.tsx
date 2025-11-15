@@ -141,7 +141,7 @@ const CustomEditor = () => {
           admin?.type === 'Doctor' || admin?.type === 'verifier' ? admin?.adminName : userName;
         const name = customName ? `${customName}_${imageType}` : `${namePrefix}_${imageType}`;
 
-        const response = await axios.get(`https://pacsdev.iotcom.io/node/getfile/${name}.jpg`, {
+        const response = await axios.get(`${window.location.origin}/node/getfile/${name}.jpg`, {
           responseType: 'blob',
         });
         const blob = new Blob([response.data], { type: 'image/jpeg' });
@@ -231,7 +231,7 @@ const CustomEditor = () => {
       `;
 
       const response = await axios.post(
-        `https://pacsdev.iotcom.io/pdfgen/generate-pdf`,
+        `${window.location.origin}/pdfgen/generate-pdf`,
         { htmlContent: combinedHtmlContent },
         {
           responseType: 'blob',
@@ -322,7 +322,7 @@ const CustomEditor = () => {
       if (unverifiedBlob) formData.append('unverified', unverifiedBlob, 'unverified.jpg');
 
       const response = await axios.post(
-        `https://pacsdev.iotcom.io/pdfgen/generate-docx`,
+        `${window.location.origin}/pdfgen/generate-docx`,
         formData,
         {
           responseType: 'blob',
@@ -491,7 +491,7 @@ const CustomEditor = () => {
           admin?.type === 'Doctor' || admin?.type === 'verifier' ? admin?.adminName : userName;
         const name = customName ? `${customName}_${imageType}` : `${namePrefix}_${imageType}`;
 
-        const response = await axios.get(`https://pacsdev.iotcom.io/node/getfile/${name}.jpg`, {
+        const response = await axios.get(`${window.location.origin}/node/getfile/${name}.jpg`, {
           responseType: 'blob',
         });
         const url = URL.createObjectURL(new Blob([response.data]));
