@@ -82,7 +82,7 @@ function Header({
             </div>
           </div> */}
           <a
-            href={`${window.location.origin}`}
+            href={`https://app.supravi.ai`}
             className=""
           >
             <img
