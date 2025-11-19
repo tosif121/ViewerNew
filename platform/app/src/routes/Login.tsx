@@ -15,7 +15,7 @@ const LoginPage: React.FC = () => {
     setError('');
 
     try {
-      const response = await axios.post(`${window.location.origin}/proxy/login`, {
+      const response = await axios.post(`https://app.supravi.ai/proxy/login`, {
         username,
         password,
       });

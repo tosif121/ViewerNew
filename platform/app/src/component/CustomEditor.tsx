@@ -141,7 +141,7 @@ const CustomEditor = () => {
           admin?.type === 'Doctor' || admin?.type === 'verifier' ? admin?.adminName : userName;
         const name = customName ? `${customName}_${imageType}` : `${namePrefix}_${imageType}`;
 
-        const response = await axios.get(`${window.location.origin}/node/getfile/${name}.jpg`, {
+        const response = await axios.get(`https://app.supravi.ai/node/getfile/${name}.jpg`, {
           responseType: 'blob',
         });
         const blob = new Blob([response.data], { type: 'image/jpeg' });
@@ -231,7 +231,7 @@ const CustomEditor = () => {
       `;
 
       const response = await axios.post(
-        `${window.location.origin}/pdfgen/generate-pdf`,
+        `https://app.supravi.ai/pdfgen/generate-pdf`,
         { htmlContent: combinedHtmlContent },
         {
           responseType: 'blob',
@@ -321,16 +321,12 @@ const CustomEditor = () => {
       const unverifiedBlob = await fetchImageAsBlob(unverified);
       if (unverifiedBlob) formData.append('unverified', unverifiedBlob, 'unverified.jpg');
 
-      const response = await axios.post(
-        `${window.location.origin}/pdfgen/generate-docx`,
-        formData,
-        {
-          responseType: 'blob',
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
+      const response = await axios.post(`https://app.supravi.ai/pdfgen/generate-docx`, formData, {
+        responseType: 'blob',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
       const file = new Blob([response.data], {
         type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -491,7 +487,7 @@ const CustomEditor = () => {
           admin?.type === 'Doctor' || admin?.type === 'verifier' ? admin?.adminName : userName;
         const name = customName ? `${customName}_${imageType}` : `${namePrefix}_${imageType}`;
 
-        const response = await axios.get(`${window.location.origin}/node/getfile/${name}.jpg`, {
+        const response = await axios.get(`https://app.supravi.ai/node/getfile/${name}.jpg`, {
           responseType: 'blob',
         });
         const url = URL.createObjectURL(new Blob([response.data]));

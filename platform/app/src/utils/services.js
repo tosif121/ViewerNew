@@ -7,7 +7,7 @@ import axios from 'axios';
 // const BASE_URL = 'http://pacc.iotcom.io:5500/';
 //const BASE_URL = 'http://localhost:5500/';
 // const BASE_URL = 'http://rad.iotcom.io:5500/';
-const BASE_URL = `${window.location.origin}/node/`;
+const BASE_URL = `https://app.supravi.ai/node/`;
 
 const getToken = () => {
   return localStorage.getItem('token');

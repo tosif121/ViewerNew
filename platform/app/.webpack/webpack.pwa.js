@@ -154,7 +154,7 @@ module.exports = (env, argv) => {
       },
       proxy: [
         {
-          '/dicomweb': 'http://localhost:5000',
+          '/dicomweb': 'http://localhost:3000',
         },
       ],
       static: [
