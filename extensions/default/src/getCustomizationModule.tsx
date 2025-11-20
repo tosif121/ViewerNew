@@ -69,7 +69,6 @@ export default function getCustomizationModule({ servicesManager, extensionManag
         ...userPreferencesCustomization,
         ...reportDialogCustomization,
         ...hotkeyBindingsCustomization,
-        ...onboardingCustomization,
         ...instanceSortingCriteriaCustomization,
       },
     },
