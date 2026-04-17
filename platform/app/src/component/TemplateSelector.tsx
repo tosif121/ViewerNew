@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { getDataFromServer } from '../utils/services';
 import JoditEditor from 'jodit-react';
 import { editorConfig } from '../utils/editorConfig';
 import TemplateDeleteModal from './TemplateDeleteModal';
-import { getDataFromServer } from '../utils/services';
 
 const SearchIcon = () => (
   <svg
@@ -119,7 +119,7 @@ const TemplateSelector = props => {
                     ([key, value]) => `
                     <section class="mb-6">
                       <h2 style="font-weight: bold; font-size: 14px; margin-bottom: 5px;">${key}</h2>
-                      <p style="margin: 0; line-height: 1.5; font-size: 12px">${value.trim().replace(/\t/g, '')}</p>
+                      <p style="margin: 0; line-height: 1.5; font-size: 12px">${String(value).trim().replace(/\t/g, '')}</p>
                     </section>
                   `
                   )
@@ -163,6 +163,11 @@ const TemplateSelector = props => {
     const xrayModalities = ['CR', 'DX', 'MG', 'XA'];
     const modalityType = xrayModalities.includes(tableData?.modality) ? 'Xray' : 'CT';
 
+    console.log('--- DEBUG: TemplateSelector fetchsTemplateData ---');
+    console.log('tableData.modality is:', tableData?.modality);
+    console.log('Calculated modalityType is:', modalityType);
+    console.log('Fetching endpoint:', `templates/${modalityType}`);
+
     const params = {
       end_point: `templates/${modalityType}`,
       params: { token: token },
@@ -172,16 +177,17 @@ const TemplateSelector = props => {
 
     getDataFromServer(params)
       .catch(handleError)
-      .finally(() => console.log('fetchsTemplateData function called'));
+      .finally(() => console.log(`fetchsTemplateData function called for ${modalityType}`));
   };
 
   useEffect(() => {
-    if (token || saveTemp) {
+    // Wait until tableData is loaded so we have the correct modality
+    if ((token || saveTemp) && tableData) {
       fetchsTemplateData(token, setReports);
       setSelectedTemplate('');
       setEditorContent('');
     }
-  }, [token, saveTemp]);
+  }, [token, saveTemp, tableData]);
 
   const createTemplateModal = () => {
     setIsUpdate(false);
@@ -208,9 +214,11 @@ const TemplateSelector = props => {
           <div className="w-full">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              disabled={admin?.type != 'Doctor' && admin?.type != 'verifier'}
-              className={`w-full rounded-md border p-2 text-left capitalize focus:outline-none focus:ring-2 ${
-                admin?.type != 'Doctor' && admin?.type != 'verifier'
+              disabled={
+                admin?.type != 'Doctor' && admin?.type != 'verifier' && admin?.type != 'admin'
+              }
+              className={`w-full rounded-md border p-2 text-left capitalize text-white focus:outline-none focus:ring-2 ${
+                admin?.type != 'Doctor' && admin?.type != 'verifier' && admin?.type != 'admin'
                   ? 'cursor-not-allowed border-gray-400 bg-gray-300 text-gray-500'
                   : 'border-white bg-[#1a1a1a] focus:ring-blue-500'
               }`}
@@ -220,12 +228,14 @@ const TemplateSelector = props => {
           </div>
           <div>
             <button
-              className={`w-full rounded p-2 text-lg ${
-                admin?.type != 'Doctor' && admin?.type != 'verifier'
+              className={`w-full rounded p-2 text-lg text-white ${
+                admin?.type != 'Doctor' && admin?.type != 'verifier' && admin?.type != 'admin'
                   ? 'cursor-not-allowed bg-gray-400'
                   : 'bg-blue-500 hover:bg-blue-600'
               }`}
-              disabled={admin?.type != 'Doctor' && admin?.type != 'verifier'}
+              disabled={
+                admin?.type != 'Doctor' && admin?.type != 'verifier' && admin?.type != 'admin'
+              }
               onClick={createTemplateModal}
             >
               <svg
@@ -256,7 +266,7 @@ const TemplateSelector = props => {
           </div>
         </div>
         {isOpen && (
-          <div className="absolute z-10 mt-1 w-full rounded-md border border-white bg-[#1a1a1a] shadow-lg">
+          <div className="absolute z-10 mt-1 w-full rounded-md border border-white bg-[#1a1a1a] text-white shadow-lg">
             <div className="border-b border-white p-2">
               <div className="relative">
                 <input
